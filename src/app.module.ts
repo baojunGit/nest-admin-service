@@ -6,6 +6,7 @@ import { ConfigService, ConfigModule } from '@nestjs/config';
 import envConfig from '../config/env';
 // import { User } from './modules/system/user/entities/user.entity';
 import { UserModule } from './modules/system/user/user.module';
+import { AuthModule } from './modules/system/auth/auth.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { UserModule } from './modules/system/user/user.module';
     }),
     // 将业务模块注入到 app.module.ts
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

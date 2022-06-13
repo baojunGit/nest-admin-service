@@ -2,8 +2,11 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
+import { UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 @ApiTags('网站用户')
 @Controller('user')
+// 过滤掉用户密码password
+@UseInterceptors(ClassSerializerInterceptor)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
