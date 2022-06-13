@@ -6,17 +6,21 @@ export class User {
   // 自动生成的主键
   @PrimaryGeneratedColumn()
   id: number;
+
   // 索引字段
   @Index()
   // @Column是对应列的映射，可以设置对应列的类型
   @Column({
-    length: 100,
-    type: 'varchar',
-    comment: '用户名',
+    name: 'user_name',
+    comment: '用户昵称',
+    length: 30,
   })
   username: string;
 
-  @Column()
+  @Column({
+    comment: '用户账号',
+    length: 30,
+  })
   account: string;
 
   @Column({ default: true })
