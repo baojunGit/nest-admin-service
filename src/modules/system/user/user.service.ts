@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
-
 @Injectable()
 export class UserService {
   constructor(
@@ -29,10 +28,13 @@ export class UserService {
     return await this.usersRepository.save(newUser);
   }
 
-  // 异步代码，必须要async await才能返回数据
   async findAll(): Promise<User[]> {
     const all = await this.usersRepository.find();
     return all;
+  }
+
+  async findOne(id: number) {
+    return await this.usersRepository.findOne({ id });
   }
 
   async remove(id: string): Promise<void> {

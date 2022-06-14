@@ -7,11 +7,13 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcryptjs';
+import { ApiProperty } from '@nestjs/swagger';
 
 // @Entity注解能够实现实体表到数据库表的映射
 @Entity()
 export class User {
   // 自动生成的主键
+  @ApiProperty({ description: '用户id' })
   @PrimaryGeneratedColumn()
   id: number;
 

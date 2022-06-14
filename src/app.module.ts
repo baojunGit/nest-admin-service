@@ -3,15 +3,17 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigService, ConfigModule } from '@nestjs/config';
-import envConfig from '../config/env';
+import envConfig from './config/env';
 // import { User } from './modules/system/user/entities/user.entity';
 import { UserModule } from './modules/system/user/user.module';
 import { AuthModule } from './modules/system/auth/auth.module';
+// import { RedisModule } from 'nestjs-redis';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: [envConfig.path] }),
     ConfigModule.forRoot({ isGlobal: true }),
+    // 连接mysql数据库
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
@@ -19,16 +21,16 @@ import { AuthModule } from './modules/system/auth/auth.module';
         type: 'mysql',
         // 数据表实体，如果配置了自动加载实体，就不用配置
         // entiies: [User],
-        // 主机，默认为localhost
-        host: configService.get('DB_HOST', '127.0.0.0'),
+        // 主机，第二个参数为默认值，默认为localhost
+        host: configService.get<string>('DB_HOST', 'localhost'),
         // 端口号
         port: configService.get<number>('DB_PORT', 3306),
         // 用户名
-        username: configService.get('DB_USER', 'root'),
+        username: configService.get<string>('DB_USER', 'root'),
         // 密码
-        password: configService.get('DB_PASSWORD', 'lbj*123456'),
+        password: configService.get<string>('DB_PASSWORD', 'root'),
         // 数据库名
-        database: configService.get('DB_DATABASE', 'admin_manage'),
+        database: configService.get<string>('DB_DATABASE', 'db'),
         // charset: 'utf8mb4',
         // 服务器上配置的时区
         timezone: '+08:00',
@@ -41,6 +43,16 @@ import { AuthModule } from './modules/system/auth/auth.module';
         autoLoadEntities: true,
       }),
     }),
+    // 连接redis
+    // RedisModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: async (configService: ConfigService) => ({
+    //     host: configService.get<string>('REDIS_HOST'),
+    //     port: configService.get<number>('REDIS_PORT'),
+    //     password: configService.get<string>('REDIS_PASSWORD'),
+    //     db: configService.get<number>('REDIS_DB'),
+    //   }),
+    // }),
     // 将业务模块注入到 app.module.ts
     UserModule,
     AuthModule,

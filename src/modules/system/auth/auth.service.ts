@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/entities/user.entity';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    private userService: UserService,
+  ) {}
 
   // 生成token
   createToken(user: Partial<User>) {
@@ -19,5 +23,9 @@ export class AuthService {
     });
 
     return { token };
+  }
+
+  async getUser(user) {
+    return await this.userService.findOne(user.id);
   }
 }

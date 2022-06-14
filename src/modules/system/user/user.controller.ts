@@ -18,6 +18,7 @@ export class UserController {
   async register(@Body() createUser: CreateUserDto) {
     return this.userService.register(createUser);
   }
+
   /**
    * @description 获取所有数据列表接口
    */

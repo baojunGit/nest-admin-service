@@ -3,7 +3,6 @@ import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import { TransformInterceptor } from './common/interceptor/transform.interceptor';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-// import { ValidationPipe } from '@nestjs/common';
 import { ValidationPipe } from './common/pipes/validation.pipe';
 
 async function bootstrap() {
@@ -25,7 +24,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
-
   await app.listen(3000);
 }
 bootstrap();
