@@ -1,3 +1,5 @@
+// 本地验证策略代码，用于login登陆接口
+
 import { compareSync } from 'bcryptjs';
 import { BadRequestException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';

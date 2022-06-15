@@ -8,6 +8,8 @@ import { AuthService } from './auth.service';
 import { LocalStorage } from './strategie/local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { UserModule } from '../user/user.module';
+import { JwtStorage } from './strategie/jwt.strategy';
 
 // 这里不建议将秘钥写死在代码也， 它应该和数据库配置的数据一样，从环境变量中来
 // 不然secret泄露了，别人一样可以生成相应的的token，随意获取你的数据
@@ -27,8 +29,14 @@ const jwtModule = JwtModule.registerAsync({
 });
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), PassportModule, jwtModule],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    PassportModule,
+    jwtModule,
+    UserModule,
+  ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStorage],
+  providers: [AuthService, LocalStorage, JwtStorage],
+  exports: [jwtModule],
 })
 export class AuthModule {}

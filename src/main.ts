@@ -20,6 +20,7 @@ async function bootstrap() {
     .setTitle('管理后台')
     .setDescription('管理后台接口文档')
     .setVersion('1.0')
+    // 测试token的接口
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);

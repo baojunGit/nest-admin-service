@@ -33,8 +33,11 @@ export class UserService {
     return all;
   }
 
-  async findOne(id: number) {
-    return await this.usersRepository.findOne({ id });
+  /* id查询用户 */
+  async findById(user) {
+    // console.log(await this.usersRepository.findOne({ where: { id: user.id } }));
+    // 注意这边写成findOne(user.id)或者find(user)都不行，跟版本写法有关
+    return await this.usersRepository.findOne({ where: { id: user.id } });
   }
 
   async remove(id: string): Promise<void> {

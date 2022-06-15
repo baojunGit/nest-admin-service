@@ -1,3 +1,5 @@
+// 提取JWT信息方法
+
 import { AuthService } from '../auth.service';
 import { ConfigService } from '@nestjs/config';
 import { UnauthorizedException } from '@nestjs/common';

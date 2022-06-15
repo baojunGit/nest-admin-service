@@ -10,7 +10,7 @@ export class AuthService {
     private userService: UserService,
   ) {}
 
-  // 生成token
+  // 生成token的方法
   createToken(user: Partial<User>) {
     return this.jwtService.sign(user);
   }
@@ -25,7 +25,8 @@ export class AuthService {
     return { token };
   }
 
+  // 获取用户信息接口，用于验证携带的token是否正确
   async getUser(user) {
-    return await this.userService.findOne(user.id);
+    return await this.userService.findById(user);
   }
 }
