@@ -6,8 +6,6 @@ import { User } from 'src/modules/system/user/entities/user.entity';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { LocalStorage } from './strategie/local.strategy';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 import { UserModule } from '../user/user.module';
 import { JwtStorage } from './strategie/jwt.strategy';
 
@@ -18,25 +16,20 @@ import { JwtStorage } from './strategie/jwt.strategy';
 // })
 
 // 注意不要忘记在.env文件中设置SECRET配置信息
-const jwtModule = JwtModule.registerAsync({
-  inject: [ConfigService],
-  useFactory: async (configService: ConfigService) => {
-    return {
-      secret: configService.get('SECRET', 'test123456'),
-      signOptions: { expiresIn: '4h' },
-    };
-  },
-});
+// const jwtModule = JwtModule.registerAsync({
+//   inject: [ConfigService],
+//   useFactory: async (configService: ConfigService) => {
+//     return {
+//       // 根据环境变量获取密钥，如果没有就给默认值test123456
+//       secret: configService.get('JWT_SECRET', 'test123456'),
+//       signOptions: { expiresIn: '4h' },
+//     };
+//   },
+// });
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([User]),
-    PassportModule,
-    jwtModule,
-    UserModule,
-  ],
+  imports: [TypeOrmModule.forFeature([User]), PassportModule, UserModule],
   controllers: [AuthController],
   providers: [AuthService, LocalStorage, JwtStorage],
-  exports: [jwtModule],
 })
 export class AuthModule {}

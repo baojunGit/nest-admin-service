@@ -1,4 +1,4 @@
-// 提取JWT信息方法
+// JWT功能实现
 
 import { AuthService } from '../auth.service';
 import { ConfigService } from '@nestjs/config';
@@ -18,7 +18,7 @@ export class JwtStorage extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get('SECRET'),
+      secretOrKey: configService.get<string>('jwt.secret'),
     } as StrategyOptions);
   }
 

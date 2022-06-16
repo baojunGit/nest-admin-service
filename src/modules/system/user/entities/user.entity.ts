@@ -22,16 +22,31 @@ export class User {
   // @Column是对应列的映射，可以设置对应列的类型
   @Column({
     name: 'user_name',
-    comment: '用户昵称',
+    comment: '用户名',
     length: 30,
   })
   username: string;
 
   @Column({
-    comment: '用户账号',
+    name: 'nick_name',
+    comment: '用户昵称',
     length: 30,
   })
-  account: string;
+  nickname: string;
+
+  @Column({
+    comment: '用户邮箱',
+    length: 50,
+    default: null,
+  })
+  email?: string;
+
+  @Column({
+    comment: '手机号码',
+    length: 11,
+    default: null,
+  })
+  phone?: string;
 
   @Exclude()
   @Column({
@@ -46,10 +61,10 @@ export class User {
   password: string;
 
   @Column({ default: '无门无派' })
-  info: string;
+  info?: string;
 
   @Column({ default: '超级管理员' })
-  role: string;
+  role?: string;
 
   @Column({
     name: 'create_time',
