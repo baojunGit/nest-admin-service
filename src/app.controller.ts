@@ -7,8 +7,8 @@ export class AppController {
   // 1. 固定路径：
   // 可以匹配到 get请求，http://localhost:3000/app/list
   @Get('list')
-  getHello(): string {
-    return this.appService.getHello();
+  getHello(): void {
+    this.appService.ping();
   }
   // 可以匹配到 post请求，http://localhost:3000/app/list
   @Post('list')

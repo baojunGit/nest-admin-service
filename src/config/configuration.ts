@@ -24,6 +24,16 @@ export interface IConfig {
     // 是否打印日志,执行sql语句时候输出原生sql,也可以配置成一个数组["query", "error", "schema"]指定sql的执行类型
     logging?: any;
   };
+
+  /**
+   * 数据库配置
+   */
+  redis?: {
+    host?: string;
+    port?: number | string;
+    password?: string;
+    db?: string;
+  };
 }
 
 // 根据环境变量导入配置
