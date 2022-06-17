@@ -20,7 +20,7 @@ export class AuthController {
 
   @Get('captcha')
   async captcha() {
-    return '验证码接口';
+    return '测试验证码接口';
   }
 
   @ApiOperation({ summary: '登录接口' })
