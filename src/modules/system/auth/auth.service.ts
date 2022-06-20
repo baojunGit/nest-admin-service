@@ -5,6 +5,7 @@ import { User } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import Redis from 'ioredis';
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class AuthService {
@@ -25,12 +26,16 @@ export class AuthService {
     console.log(svg);
     // Buffer是node里的一个模块，这个模块的出现是因为js没有阅读和操作二进制数据流而出现的
     // Buffer.from()从字符串或者数组创建一个buffer，将内容写入刚刚申请的内存中
-    const imgUrl = `data:image/svg+xml;base64,${Buffer.from(svg.data).toString(
-      'base64',
-    )}`;
+    const result = {
+      img: `data:image/svg+xml;base64,${Buffer.from(svg.data).toString(
+        'base64',
+      )}`,
+      // 生成一个唯一的id标识，方便查询
+      id: nanoid(),
+    };
     // 5分钟过期时间
     await this.redis.set('tag', svg.text, 'EX', 60 * 5);
-    return imgUrl;
+    return result;
   }
 
   // 生成token的方法
