@@ -20,7 +20,7 @@ export class AuthController {
 
   @Get('captcha')
   async captcha() {
-    return '测试验证码接口';
+    return await this.authService.createCaptcha();
   }
 
   @ApiOperation({ summary: '登录接口' })

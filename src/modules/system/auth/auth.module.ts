@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 import { LocalStorage } from './strategie/local.strategy';
 import { UserModule } from '../user/user.module';
 import { JwtStorage } from './strategie/jwt.strategy';
+import { CaptchaService } from 'src/utils/captcha';
 
 // 这里不建议将秘钥写死在代码也， 它应该和数据库配置的数据一样，从环境变量中来
 // 不然secret泄露了，别人一样可以生成相应的的token，随意获取你的数据
@@ -30,6 +31,6 @@ import { JwtStorage } from './strategie/jwt.strategy';
 @Module({
   imports: [TypeOrmModule.forFeature([User]), PassportModule, UserModule],
   controllers: [AuthController],
-  providers: [AuthService, LocalStorage, JwtStorage],
+  providers: [AuthService, LocalStorage, JwtStorage, CaptchaService],
 })
 export class AuthModule {}
