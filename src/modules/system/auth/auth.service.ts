@@ -6,8 +6,10 @@ import { UserService } from '../user/user.service';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import Redis from 'ioredis';
 // 这里nanoid要使用V3版本，不然会报错
-// V4不支持 CommonJS
+// V4不支持 CommonJS，要等兼容做好再升级
 import { nanoid } from 'nanoid';
+import { isEmpty } from 'lodash';
+import { ApiException } from 'src/common/exceptions/api.exception';
 
 @Injectable()
 export class AuthService {
@@ -19,7 +21,7 @@ export class AuthService {
   ) {}
 
   /**
-   * 创建验证码并缓存加入redis缓存
+   * @description 创建验证码并缓存加入redis缓存
    * @param captcha 验证码长宽
    * @returns svg & id obj
    */
@@ -38,12 +40,24 @@ export class AuthService {
     };
     // 5分钟过期时间
     await this.redis.set(
-      `admin:captcha:img:${result.id}`,
-      svg.text,
-      'EX',
-      60 * 5,
+      `admin:captcha:img:${result.id}`, // redis分层目录存储验证码信息
+      svg.text, // 验证码的文本内容
+      'EX', //设置键的过期时间为 second 秒；PX设置键的过期时间为 millisecond 毫秒
+      60 * 5, // 存储五分钟
     );
     return result;
+  }
+
+  /**
+   * @description 校验图片验证码
+   */
+  async checkImgCaptcha(id: string, code: string): Promise<void> {
+    const result = await this.redis.get(`admin:captcha:img:${id}`);
+    if (isEmpty(result) || code.toLowerCase() !== result.toLowerCase()) {
+      throw new ApiException(10002);
+    }
+    // 校验成功后移除验证码
+    await this.redis.del(`admin:captcha:img:${id}`);
   }
 
   // 生成token的方法
@@ -51,7 +65,22 @@ export class AuthService {
     return this.jwtService.sign(user);
   }
 
+  /**
+   * @description Jwt登陆验证
+   * @param user
+   * @returns
+   */
+
+  // interface User {
+  //   id: number;
+  //   age: number;
+  //   name: string;
+  // };
+  // type PartialUser = Partial<User>
+  // 相当于: type PartialUser = { id?: number; age?: number; name?: string; }
+
   async login(user: Partial<User>) {
+    console.log(user);
     const token = this.createToken({
       id: user.id,
       username: user.username,
