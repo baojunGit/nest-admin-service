@@ -27,7 +27,6 @@ export class AuthService {
    */
   async createCaptcha() {
     const svg = await this.captchaService.getCaptcha();
-    console.log(svg);
     const uuid = nanoid(8);
     // Buffer是node里的一个模块，这个模块的出现是因为js没有阅读和操作二进制数据流而出现的
     // Buffer.from()从字符串或者数组创建一个buffer，将内容写入刚刚申请的内存中
