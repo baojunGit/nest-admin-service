@@ -2,7 +2,7 @@ import { HttpException } from '@nestjs/common';
 import { ErrorCodeMap } from '../constant/error-code.constant';
 
 /**
- * @description Api业务异常均抛出该异常
+ * @description Api业务异常均抛出该方法
  */
 export class ApiException extends HttpException {
   // 业务类型错误代码，非Http code

@@ -61,15 +61,9 @@ export class AuthService {
   }
 
   // 生成token的方法
-  createToken(user: Partial<User>) {
-    return this.jwtService.sign(user);
-  }
-
-  /**
-   * @description Jwt登陆验证
-   * @param user
-   * @returns
-   */
+  // createToken(user: Partial<User>) {
+  //   return this.jwtService.sign(user);
+  // }
 
   // interface User {
   //   id: number;
@@ -79,14 +73,19 @@ export class AuthService {
   // type PartialUser = Partial<User>
   // 相当于: type PartialUser = { id?: number; age?: number; name?: string; }
 
+  /**
+   * @description Jwt登陆验证
+   * @param user
+   * @returns
+   */
+
   async login(user: Partial<User>) {
-    console.log(user);
-    const token = this.createToken({
+    // 生成token
+    const token = this.jwtService.sign({
       id: user.id,
       username: user.username,
       role: user.role,
     });
-
     return { token };
   }
 

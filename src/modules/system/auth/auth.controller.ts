@@ -27,7 +27,9 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('login')
-  async login(@Body() user: LoginDto, @Req() req) {
+  async login(@Body() dto: LoginDto, @Req() req) {
+    console.log(dto);
+    await this.authService.checkImgCaptcha(dto.captchaId, dto.verifyCode);
     return await this.authService.login(req.user);
   }
 }
